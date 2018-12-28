@@ -1,0 +1,141 @@
+SpringBootJavainuseTaskScheduler
+ 
+The Spring Framework provides abstractions for asynchronous execution and scheduling of tasks with the TaskExecutor and TaskScheduler interfaces, respectively. We make use of the @Scheduled annotation to schedule a task. It internally makes use of the TaskScheduler.
+
+Implement method with @Scheduled annotations. This mark the method to be scheduled. We use one of the cron(), initialDelay(), fixedRate() attributes along with Scheduled
+Create a ScheduledTasks class giving the below annotations
+@Scheduled(fixedRate=10000)-> it will be invoked after every 10s
+@Scheduled(initialDelay=1000, fixedRate=10000)-> first wait/delay of only 1s, then every 10s the method will be invoked
+@Scheduled(cron="*/5 * * * * *")-> every 5s it will be invoked
+
+Create the main class with the annotation @EnableScheduling
+
+Make the changes and Start the application
+
+
+  
+
+ 
+
+
+ 
+Spring Boot Task Scheduler Example
+In this post we will see how to schedule tasks using Spring Boot. The Spring Framework provides abstractions for asynchronous execution and scheduling of tasks with the TaskExecutor and TaskScheduler interfaces, respectively. We make use of the @Scheduled annotation to schedule a task. It internally makes use of the TaskScheduler. 
+Video
+
+This tutorial is explained in the below Youtube Video.
+
+
+Lets Begin-
+
+The project will be as follows- 
+Spring Boot Task Scheduler Tutorial
+
+ 
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.javainuse</groupId>
+	<artifactId>springboot-task-scheduler</artifactId>
+	<version>0.0.1</version>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.4.0.RELEASE</version>
+		<relativePath/>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+Implement methods with the @Scheduled annotations. This marks a method to be scheduled. We use one of the cron(), fixedDelay(), or fixedRate() attributes along with scheduled.
+package com.javainuse.taskconfig;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ScheduledTasks {
+
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat(
+			"MM/dd/yyyy HH:mm:ss");
+
+	@Scheduled(fixedRate = 10000)
+	public void performTask() {
+
+		System.out.println("Regular task performed at "
+				+ dateFormat.format(new Date()));
+
+	}
+
+	@Scheduled(initialDelay = 1000, fixedRate = 10000)
+	public void performDelayedTask() {
+
+		System.out.println("Delayed Regular task performed at "
+				+ dateFormat.format(new Date()));
+
+	}
+
+	@Scheduled(cron = "*/5 * * * * *")
+	public void performTaskUsingCron() {
+
+		System.out.println("Regular task performed using Cron at "
+				+ dateFormat.format(new Date()));
+
+	}
+}
+Finally define the Spring Boot class with the annotations @SpringBootApplication @EnableScheduling-
+package com.javainuse.taskconfig;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+@SpringBootApplication
+@EnableScheduling
+public class SpringBootHelloWorldApplication {
+
+	public static void main(String[] args) {
+
+		SpringApplication.run(
+				new Object[] { SpringBootHelloWorldApplication.class }, args);
+	}
+}
+Start the application-
+
+Spring Boot Task Scheduler Example
+Download Source Code
+Download it -
+Spring Boot + Task Scheduler Hello World Example
+
+
+
+
